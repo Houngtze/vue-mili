@@ -122,8 +122,7 @@
   </div>
 </template>
 
-<script type="ecmascript-6">
-import tabBar from '../components/tabBar'
+<script>
 import loading from '../components/loading'
 import {config} from '../api'
 import Utils from '../utils'
@@ -182,7 +181,6 @@ export default {
   },
 
   components: {
-      tabBar,
       loading,
       swiper,
       swiperSlide
@@ -213,9 +211,8 @@ export default {
 <style src="../assets/css/common.css"></style>
 <style src="../assets/css/index.css"></style>
 <style src="../assets/font/iconfont.css"></style>
+
 <style rel="stylesheet">
-
-
 html,
 body {
   background: #f5f5f5;
@@ -428,17 +425,6 @@ body {
 
 .m-home-news .m-item .right img {
   height: 100%
-}
-
-#header {
-  padding-top: 1rem;
-  padding-bottom: 0;
-  display: none;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 10000000000
 }
 
 

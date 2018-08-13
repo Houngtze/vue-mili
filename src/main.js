@@ -4,8 +4,15 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+import VueLazyload from 'vue-lazyload'
 import 'util'
 Vue.use(VueAwesomeSwiper)
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: require('./assets/image/default/default-1.png'),
+  loading: require('./assets/image/default/default-1.png'),
+  attempt: 1
+})
 
 let history = {
     count:4,    //初识tab切换数量

@@ -2,14 +2,14 @@
   <div id="app">
     <div class="m-bar-footer  m-index-nav " style="  background-color: transparent !important;border-bottom:none" id="nav" v-show="isBottom">
         <div class="m-table" style="overflow:hidden;;border-bottom:none">
-            <router-link to="/index" class="a1 m-table-cell m-col-xs-3 m-focus"> <s class=" s1"></s> <s class=" s2"></s> 首页 </router-link>
-            <router-link to="/product" class="a2 m-table-cell m-col-xs-3 "> <s class=" s1"></s> <s class=" s2"></s> 产品 </router-link>
-            <router-link to="/lqb" class="a5 m-table-cell m-col-xs-3"> <s class=" s1"></s> <s class=" s2"></s></router-link>
-            <router-link to="/discovery" class="a3 m-table-cell m-col-xs-3"> <s class=" s1"></s> <s class=" s2"></s> 发现 </router-link>
-            <router-link to="/my" class="a4 m-table-cell m-col-xs-3"> <s class=" s1"></s> <s class=" s2"></s> 我的 </router-link>
+            <router-link to="/index" class="a1 m-table-cell m-col-xs-3" active-class="m-focus"> <s class=" s1"></s> <s class=" s2"></s> 首页 </router-link>
+            <router-link to="/product" class="a2 m-table-cell m-col-xs-3" active-class="m-focus"> <s class=" s1"></s> <s class=" s2"></s> 产品 </router-link>
+            <router-link to="/lqb" class="a5 m-table-cell m-col-xs-3" active-class="m-focus"> <s class=" s1"></s> <s class=" s2"></s></router-link>
+            <router-link to="/discovery" class="a3 m-table-cell m-col-xs-3" active-class="m-focus"> <s class=" s1"></s> <s class=" s2"></s> 发现 </router-link>
+            <router-link to="/my" class="a4 m-table-cell m-col-xs-3" active-class="m-focus"> <s class=" s1"></s> <s class=" s2"></s> 我的 </router-link>
         </div>
     </div>
-        <transition :name="transitionName">
+        <transition>
          <!--<transition name="fade">-->
             <keep-alive>
                 <router-view></router-view>
@@ -26,14 +26,12 @@ export default {
       },
       data(){
           return {
-              transitionName:'',
               isBottom:true,
-              bottomArr:['/index','/product','/lqb','/discovery','/my']
+              bottomArr:['/index','/product','','/discovery','/my']
           }
       },
       watch: {
-          '$route' (to, from) {
-               this.transitionName = JSON.parse(window.sessionStorage.history).transitionName;
+          $route (to, from) {
                let index = this.bottomArr.indexOf(to.path);
                if(index == -1){
                    this.isBottom = false;
@@ -47,6 +45,7 @@ export default {
 
 <style src="./assets/css/common.css"></style>
 <style src="./assets/css/index.css"></style>
+<style src="./assets/font/iconfont.css"></style>
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
