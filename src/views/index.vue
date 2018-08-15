@@ -37,7 +37,7 @@
         <div class="content-swiper">
             <swiper :options="swiperOptionPro" v-if="swiper_product"  id="contentSwiper">
             <!-- <div class="swiper-slide before-slide"><img src="../assets/image/default/default-3.png"></div>  -->
-                <swiper-slide v-for="item in swiper_product" :key="item.id">
+                <swiper-slide v-for="item in swiper_product" :key="item.id" @click="goDetail(item.id,'sxb')">
                     <template v-if="item.loan_no">
                         <div class=" product-item loan-item">
                             <div class="product-item-header">
@@ -69,7 +69,7 @@
                         </div>
                     </template>
                     <template v-if="item.plan_no">
-                          <div class="product-item plan-item" :key="item.id">
+                          <div class="product-item plan-item" :key="item.id" @click="goDetail(item.id,'zcb')">
                             <div class="product-item-header">
                                   <span>■</span>
                                   <span class="product-item-title">{{ item.name }}</span>
@@ -172,11 +172,14 @@ export default {
 		} 
 	},
   methods: {
-    calculateAccount: function (item) {
+    calculateAccount: item => {
       return Utils.AmountFormate(parseInt(item.amout)-parseInt(item.already_invest)+"")
     },
-    calculateIncome: function (item) {
+    calculateIncome: item => {
       return Utils.AmountFormate(((item.yearrate)*(parseInt(item.amount_min))*0.01/12).toFixed(2)+"")
+    },
+    goDetail: function (id, type) {
+        this.$router.push({name:'productDetail',query:{ id: id , type: type }});
     }
   },
 

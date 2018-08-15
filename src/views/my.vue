@@ -4,12 +4,12 @@
 			<div class="m-mine-info" id="hasLogin">
 				<div class="info-header m-flex-box">
 					<div class="left">
-						<img id="userImg" _insert="${headImg}" onerror="this.src='../assets/image/discovery/discovery-pic.png'" alt="">
+						<img id="userImg" :src="user.head_img" :onerror="user_default" alt="">
 					</div>
 					<div class="middle">
-						<p id="nickName">${userName}</p>
+						<p id="nickName">{{user.user_name}}</p>
 						<span id="authentication">
-							${statusInfo}
+							{{user.statusInfo}}
 						</span>
 					</div>
 					<div class="right flex-1">
@@ -18,20 +18,20 @@
 				</div>
 				<div class="info-data">
 					<div class="data-header">
-						<h1 id="total">${total}</h1>
+						<h1 id="total">{{userAccount.total}}</h1>
 						<p class="data-small-font">总资产(元)</p>
 					</div>
 					<div class="data-item data-flex">
 						<div class="data-item-detail">
-							<p id="available">${available}</p>
+							<p id="available">{{userAccount.available}}</p>
 							<span class="data-small-font">账户余额(元)</span>
 						</div>
 						<div class="data-item-detail">
-							<p id="investment">${investment}</p>
+							<p id="investment">{{userAccount.investment}}</p>
 							<span class="data-small-font">在投本金(元)</span>
 						</div>
 						<div class="data-item-detail">
-							<p id="allInterest">${allInterest}</p>
+							<p id="allInterest">{{userAccount.interest}}</p>
 							<span class="data-small-font">累计收益(元)</span>
 						</div>
 					</div>
@@ -45,7 +45,7 @@
 		</div>
 
 		<div class="m-personal-list3 m-mine-list">
-			<div class="m-item m-item2 m-mine-title">
+			<div class="m-item m-item2 m-mine-title" @click="toRegister">
 				<div class="m-pull-right">
 					<span class="iconfont"><img src="../assets/image/in.png"></span>
 				</div>
@@ -113,25 +113,44 @@
 </template>
 
 <script>
+import router from '../router'	
+import store from '../store'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
-    	isLogin: false
+		user_default: 'this.src="' + require('../assets/image/discovery/discovery-pic.png') + '"'
     }
   },
-  created() {
-
-  },
+  computed: {
+  	isLogin: function () {
+  		return store.state.token ? true : false
+  	},
+    // 认证状态判断
+    user: function () {
+      let user = JSON.parse(store.state.user) , status = user.status
+      switch (status) {
+      	case "1": user.statusInfo =  "已认证"; break;
+      	case "2": user.statusInfo =  "认证不通过"; break;
+      	case "3": user.statusInfo =  "认证中"; break;
+      	case "0": user.statusInfo =  "未认证"; break;
+      }
+      user.user_name = user.user_name ? user.user_name : user.phone
+	  return user
+    },
+    userAccount: function (){
+    	return JSON.parse(store.state.userAcount)
+    }
+  }, 
   methods: {
     toLogin: function () {
-    	
+		this.$router.push({name:'login'});
     },
     toRegister: function () {
-
+    	this.$router.push({name:'register'});
     }
   }
 }
-
 </script>
 
 <style rel="stylesheet" scoped>
@@ -159,6 +178,7 @@ export default {
 
 .info-header .middle {
 	padding-left: .2rem;
+	text-align: left;
 }
 
 .info-header .middle p {

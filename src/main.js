@@ -3,10 +3,23 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
+
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueLazyload from 'vue-lazyload'
 import 'util'
+
+import layer from 'vue-layer-mobile'
+import 'vue-layer-mobile/need/layer.css'
+Vue.use(layer)
+
+let Base64 = require('js-base64').Base64;
+
 Vue.use(VueAwesomeSwiper)
+
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: require('./assets/image/default/default-1.png'),
@@ -49,10 +62,25 @@ router.beforeEach(function (to, from, next) {
 
     window.sessionStorage.setItem('history',history);
 
+    let token = store.state.token;
+     //判断要去的路由有没有requiresAuth
+     if (to.meta.needToken) {
+      if (token) {
+       next();
+      } else {
+       next({
+        path: '/login',
+        query: { redirect: to.fullPath } // 将刚刚要去的路由path作为参数，方便登录成功后直接跳转到该路由
+       });
+      }
+     } else {
+      next(); 
+     }
+
     if (/\/http/.test(to.path)) {
         let url = to.path.split('http')[1];
         window.location.href = `http${url}`
-    } else {
+    } else { 
         next()
     }
 });

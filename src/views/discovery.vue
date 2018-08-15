@@ -4,21 +4,16 @@
 
             <div class="my-bonus flex-1">
                 <div class="my-bonus-title m-flex-box">
-                    <img  alt="" id="headImg"  src="../assets/image/discovery/discovery-pic.png">
+                    <img  alt="" id="headImg"  :onerror="user_default" :src="user.head_img">
                     <p class="flex-1">我的积分</p>
                     <div class="my-exchange m-flex-box">
                         <img src="../assets/image/discovery/my-exchange.png" alt="">
                         <span class="color-27a0ff">我的兑换</span>
                     </div>
                 </div>
-                <h2 id="myIntegral">0</h2>
+                <h2 id="myIntegral">{{userPoint}}</h2>
             </div>
 
-        </div>
-        <div class="m-discovery-swiper">
-            <div class="swiper-container">
-                  <img src="" onerror="this.scr='../assets/image/discovery/discovery-swiper.png'" class="swiper-lazy" id="discoverySwiper">
-            </div>
         </div>
         <div class="m-discovery-operate ">
             <ul class="m-flex-box">
@@ -76,13 +71,24 @@
 import loading from '../components/loading'
 import {config} from '../api'
 import Utils from '../utils'
-import axios from 'axios'
+import axios from '../axios'
+import store from '../store'
+
 export default {
   data () {
     return {
-    	product_list: []
+    	product_list: [],
+        user_default: 'this.src="' + require('../assets/image/discovery/discovery-pic.png') + '"'
     }
   },
+  computed: {
+    user: function () {
+        return  JSON.parse(store.state.user) || {head_img: ""}
+    },
+    userPoint: function () {
+        return store.state.userPoint || "0"
+    }
+  }, 
   created() {
   	 axios.post(config.url_allItem,{
   	 	page: 1,
@@ -103,13 +109,27 @@ export default {
                     msg: '数据获取失败'
                 });
             }
-        
       });
+     
+  },
+  // 通过路由守卫，监听重新进入当前组件state的值
+  beforeRouteEnter  (to, from, next) {
+    next(vm => {
+        // 通过 `vm` 访问组件实例
+        if (!store.state.userPoint) {
+            axios.get(config.url_userIntegral).then((res) => {
+                console.log(res)
+                if (res.data.errcode == 0) {
+                    store.dispatch('UserPoint',res.data.data.available)
+                }
+            })
+        }
+      })
   }
 }
 </script>
 
-<style rel="stylesheet">
+<style rel="stylesheet" scoped>
 html,
 body {
     background: #f5f5f5;
@@ -195,7 +215,7 @@ body {
 	/*border-radius: 1.5rem;*/
 }
 .m-discovery-operate {
-    margin-top: .3rem;
+    margin-top: 2rem;
     background-color: #fff
 }
 
