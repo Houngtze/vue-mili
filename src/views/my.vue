@@ -102,13 +102,13 @@
 				<span>更多设置</span>
 			</div>
 		</div>
-		<!--
-	<div style="width:100%;text-align:center;padding:10px 0">
-        </button>
-		<button class="m-btn-yellow" tapmode="" onClick="clearData()">
-          清除数据
-        </button>
-	</div> -->
+				
+			<div style="width:100%;text-align:center;padding:10px 0">
+		        </button>
+				<button class="m-btn-yellow" tapmode="" @click="clearData">
+		          清除数据
+		        </button>
+			</div> 
 	</div>
 </template>
 
@@ -148,6 +148,10 @@ export default {
     },
     toRegister: function () {
     	this.$router.push({name:'register'});
+    },
+    clearData: function () {
+    	store.dispatch('UserLogout');
+    	scrollTo(0,0)
     }
   }
 }

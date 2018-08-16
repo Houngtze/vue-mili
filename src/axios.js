@@ -2,6 +2,7 @@
 import axios from 'axios'
 import store from './store'
 import router from './router'
+import Utils from './utils'
 //创建axios实例
 var instance = axios.create({
  timeout: 5000, //请求超过5秒即超时返回错误
@@ -27,10 +28,15 @@ instance.interceptors.response.use(
     console.log(error)
    switch (error.response.status) {
     case 401:
-     router.replace({ //跳转到登录页面
-      path: 'login',
-      query: { redirect: router.currentRoute.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
-     });
+     // router.replace({ //跳转到登录页面
+     //  path: 'login',
+     //  query: { redirect: router.currentRoute.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+     // });
+     
+     Utils.dialog('','您的账号已在别处登录，请重新登录',['确定'],function () {
+          store.dispatch('UserLogout');
+       }
+     )
    }
   }
   return Promise.reject(error.response);

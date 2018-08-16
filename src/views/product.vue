@@ -3,14 +3,14 @@
 	  	<loading :loadingShow="l_show"></loading>
 	  	<topBar :title="'投资产品'" :backShow="false"></topBar>
         <div>
-            <div class="m-tab" style="background-color:#fff;position:fixed;width: 100%;z-index:1000;top:2.8rem">
+            <div class="m-tab" style="background-color:#fff;position:fixed;width: 100%;z-index:1000;top:2.5rem">
                 <a :class="{'m-active':tab_show}" @click="tabShow"><span>随心宝</span></a>
                 <a :class="{'m-active':!tab_show}" @click="tabShow"><span>整存宝</span></a>
             </div>
             
             <div id="itme1" class="itme m-tab-content" style="padding-top:5.3rem;overflow:hidden;margin-bottom: 3rem;" v-show="tab_show">
 	            <div class="tab-conent">
-	                <div class="product-item loan-header">
+	                <div class="product-item loan-header" @click="goDetail(sxb_head.id,'sxb')">
 	                    <div class="product-item-header">
 	                        <span>■</span>
 	                        <span class=" product-item-title">{{sxb_head.name}}</span>
@@ -51,7 +51,7 @@
 	                </div>
 	                <div class="product-list loan-list">
 	                    <ul>
-	                        <li v-for="(item,index) in sxb_list" :key="index">
+	                        <li v-for="(item,index) in sxb_list" :key="item.id" @click="goDetail(item.id,'sxb')">
 	                            <div class="product-list-item-header product-item-header">
 	                                <span>■</span>
 	                                <span class=" product-item-title">{{item.name}}</span>
@@ -81,14 +81,14 @@
 
             <div id="itme2" class="itme m-tab-content" style="padding-top:5.3rem;overflow:hidden;margin-bottom: 3rem;" v-show="!tab_show">
 	            <div class="tab-conent">
-	                <div class="product-item plan-header">
+	                <div class="product-item plan-header"  @click="goDetail(zcb_head.id,'zcb')">
 	                    <div class="product-item-header">
 	                        <span>■</span>
 	                        <span class=" product-item-title">{{zcb_head.name}}</span>
 	                        <span>■</span>
 	                    </div>
 	                    <div class="product-item-data">
-	                        <h1>{{zcb_head.yearrate}}</h1>
+	                        <h1>{{zcb_head.yearrate}}%</h1>
 	                        <p>预期年化收益率</p>
 	                        <div class="product-item-data-detail">
 	                            <div class="left">
@@ -108,7 +108,7 @@
 	                </div>
 	                <div class="product-list plan-list">
 	                    <ul>
-                            <li v-for="(item,index) in zcb_list" :key="index">
+                            <li v-for="(item,index) in zcb_list" :key="item.id"  @click="goDetail(item.id,'zcb')">
                                 <div class="product-list-item-header product-item-header">
                                     <span>■</span>
                                     <span class=" product-item-title">{{item.name}}</span><label v-if="item.range!=1">可复利</label>
@@ -235,8 +235,11 @@ export default {
  },
   methods: {
     tabShow: function () {
-      this.tab_show==true?this.tab_show=false:this.tab_show=true;
+        this.tab_show==true?this.tab_show=false:this.tab_show=true;
     },
+    goDetail: function (id, type) {
+        this.$router.push({name:'productDetail',query:{ id: id , type: type }});
+    }
   }
 }
 </script>

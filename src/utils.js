@@ -4,6 +4,7 @@ import layer from 'vue-layer-mobile'
 var utils = {
     //金额格式化千分位(000,000,000)
     AmountFormate: function(str){
+        console.log(typeof(str))
         var _this = str
         var number = _this.toString();
         var num = _this + "";
@@ -36,6 +37,23 @@ var utils = {
             return number;
         }
     },
+    getNowFormatDate: function() {
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = year + "." + month + "." + strDate;
+
+        return currentdate;
+    },
 // toast: 文字和图标:
     toast :function(content){        
         layer.toast({
@@ -46,19 +64,22 @@ var utils = {
         return false
     },
     // dialog:
-    dialog: function(title,conten,className){
+    dialog: function(title,content,btn,callback){
         layer.dialog({
-          title: title || ['标题', 'background:red;'], // 第一个是标题内容  第二个是标题栏的style(可以为空) 
-          content: conten || '',
-          contentClass: className || 'className',
-          btn: ['取消','确定'],
+          title: title || ['标题', 'background:red;display:none'], // 第一个是标题内容  第二个是标题栏的style(可以为空) 
+          content: content || '',
+          contentClass: 'className',
+          btn: btn || ['确定','取消'],
         //   time: 2000
         })
         // 如果有btn 
         .then(function (res){
           // res为0时是用户点击了左边  为1时用户点击了右边 
-          let position = res === 0 ? 'left' : 'right'
-           console.log(position)
+            let position = res
+            console.log(position)
+            if (position==0) {
+                callback()
+            }
          })
     },
     // footer:

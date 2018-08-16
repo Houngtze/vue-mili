@@ -3,9 +3,6 @@
       <div class="container">
         <loading :loadingShow="l_show"></loading>
        <div class="m-banner" id="swiper-box">
-            <div class="msg-btn">
-              <img src="../assets/image/home/msg.png" alt="">
-            </div>
             <img src="../assets/image/home/bg_banner_01.png" class="bottom-image" alt="">
             <swiper :options="swiperOption" v-if="swiper_mes" id="swiper">
                 <!-- <div class="swiper-slide before-slide"><img src="../assets/image/default/default-3.png"></div>  -->
@@ -17,19 +14,19 @@
             
         </div>
         <div class="m-banner-option m-flex-box">
-                <div class="flex-1">
+                <div class="flex-1" @click="noOpen">
                     <img src="../assets/image/home/home_01.png">
                     <p>每日签到</p>
                 </div>
-                <div class="flex-1">
+                <div class="flex-1" @click="">
                     <img src="../assets/image/home/home_02.png">
                     <p>活动专区</p>
                 </div>
-                <div class="flex-1">
+                <div class="flex-1" @click="noOpen">
                     <img src="../assets/image/home/home_03.png">
                     <p>新手必看</p>
                 </div>
-                <div class="flex-1">
+                <div class="flex-1" @click="noOpen">
                     <img src="../assets/image/home/home_04.png">
                     <p>安全保障</p>
                 </div>
@@ -180,6 +177,9 @@ export default {
     },
     goDetail: function (id, type) {
         this.$router.push({name:'productDetail',query:{ id: id , type: type }});
+    },
+    noOpen: function() {
+      Utils.toast("该功能暂未开放，请移至APP使用")
     }
   },
 
@@ -215,7 +215,7 @@ export default {
 <style src="../assets/css/index.css"></style>
 <style src="../assets/font/iconfont.css"></style>
 
-<style rel="stylesheet">
+<style rel="stylesheet" scoped>
 html,
 body {
   background: #f5f5f5;
@@ -244,7 +244,7 @@ body {
     height: 8rem;
     background-color: #fff
 }
-#swiper img{
+#swiper>img{
     width: 100%;
     height: 100%
 }
@@ -313,7 +313,7 @@ body {
   margin: 0 5px
 }
 
-.swiper-slide img {
+.swiper-slide>img {
   width: 100%;
 }
 

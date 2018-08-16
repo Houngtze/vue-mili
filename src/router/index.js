@@ -34,6 +34,7 @@ export default new Router({
 
     // product
     {path: '/productDetail', name: 'productDetail',component:resolve => require(['@/views/product/productDetail'], resolve) },
+    {path: '/productInvest', name: 'productInvest',meta: {needToken: true},component:resolve => require(['@/views/product/productInvest'], resolve) },
 
   ],
   'linkActiveClass':'active'  //为路由匹配激活link-active，方便设置类

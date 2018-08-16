@@ -9,19 +9,33 @@
                 <span>■</span>
             </div>
             <div class="product-item-data">
-                <h1 id="investYearrate">-</h1>
+                <h1 id="investYearrate">{{detail.yearrate}}%</h1>
                 <p>预期年化收益率</p>
-                <div class="product-item-data-detail">
+                <div class="product-item-data-detail" v-if="type=='sxb'">
                     <div class="left">
-                        <h3 id="investDays">-</h3>
+                        <h3 id="investDays">{{detail.range}}</h3>
                         <p>项目期限(天)</p>
                     </div>
                     <div class="middle">
-                        <h3 class="color-ff6459" id="investCaninvest">-</h3>
+                        <h3 class="color-ff6459" id="investCaninvest">{{investCaninvest}}</h3>
                         <p>可投金额(元)</p>
                     </div>
                     <div class="right">
-                        <h3 id="investAmoutMin">-</h3>
+                        <h3 id="investAmoutMin">{{detail.amount_min}}</h3>
+                        <p>起投金额(元)</p>
+                    </div>
+                </div>
+                <div class="product-item-data-detail" v-if="type=='zcb'">
+                    <div class="left">
+                        <h3 class="color-333" id="investRange">{{detail.range}}</h3>
+                        <p>项目期限(月)</p>
+                    </div>
+                    <div class="middle">
+                        <h3 class="color-ff6459" id="investIncome">{{investIncome}}</h3>
+                        <p>万元预期收益(元)</p>
+                    </div>
+                    <div class="right">
+                        <h3 id="investAmoutMin">{{detail.amount_min}}</h3>
                         <p>起投金额(元)</p>
                     </div>
                 </div>
@@ -30,36 +44,53 @@
         <div class="product-item-detail">
             <div class="product-item-detail-title">
                 <div class="m-pull-right">
-                    <label id="repaytype">-</label>
+                    <label id="repaytype">到期返还本息</label>
                 </div>
-                <span>回款方式</span>
+                <span style="float: left;">回款方式</span>
             </div>
-            <div class="product-item-data-detail">
+            <div class="product-item-data-detail" v-if="type=='sxb'">
                 <div class="left">
                     <img src="../../assets/image/products/product-icon_1.png" alt="">
                     <h3>现在投资</h3>
-                    <p id="investBegin">-</p>
+                    <p id="investBegin">{{now}}</p>
                 </div>
                 <div class="middle">
                     <img src="../../assets/image/products/product-icon_2.png" alt="">
                     <h3>产生收益</h3>
-                    <p id="investStart">-</p>
+                    <p id="investStart">{{now}}</p>
                 </div>
                 <div class="right">
                     <img src="../../assets/image/products/product-icon_3.png" alt="">
                     <h3>本期到期</h3>
-                    <p id="investEnd">-</p>
+                    <p id="investEnd">{{inverEnd}}</p>
+                </div>
+            </div>
+            <div class="product-item-data-detail" v-if="type=='zcb'">
+                <div class="left">
+                    <img src="../../assets/image/products/product-icon_1.png" alt="">
+                    <h3>立即加入</h3>
+                    <p id="investMin">{{detail.amount_min}}元起投</p>
+                </div>
+                <div class="middle">
+                  <img src="../../assets/image/products/product-icon_4.png" alt="">
+                    <h3>投资成功</h3>
+                    <p>当日计息</p>
+                </div>
+                <div class="right">
+                  <img src="../../assets/image/products/product-icon_5.png" alt="">
+                    <h3 id="investLock">锁定{{detail.range}}个月</h3>
+                    <p id="investRepy">{{detail.repaytype}}</p>
                 </div>
             </div>
         </div>
-        <div class="up-line">
+<!--         <div class="up-line">
             <div class="line"></div>
             <span>上滑查看详情</span>
             <div class="line"></div>
-        </div>
+        </div> -->
         <div class="m-bar-footer m-flex-box product-detail-button" id="nav">
 	        <a class="left" id="showCalculate" tapmode="active"><img src="../../assets/image/products/product-icon_cal.png" alt=""></a>
-	        <a class="right" tapmode="active" id="toInvest">立即投资</a>
+	        <a class="right" tapmode="active" id="toInvest" @click="toInvest(id,type)">立即投资</a>
 	    </div>
     </div>
     
@@ -85,9 +116,46 @@ export default {
       loading,
       topBar
   },
+  computed: {
+    investIncome: function () {
+        if (this.detail) {
+            this.detail.yearrate = Number(this.detail.yearrate)
+            this.detail.range = Number(this.detail.range)
+            this.detail.income = (10000 * (Math.pow(1+(this.detail.yearrate) / 1200 , this.detail.range)))-10000;
+            this.detail.income = this.detail.income.toFixed(2);
+            return  this.detail.income
+        }
+    },
+    investCaninvest: function() {
+        if (this.detail) {
+            return this.detail.caninvest = (parseInt(this.detail.amout) - parseInt(this.detail.already_invest)).toFixed(0)
+        }
+    },
+    inverEnd: function() {
+        var endDate = new Date(this.now.replace(".","-").replace(".","-"));
+        endDate = endDate.setDate(endDate.getDate() + parseInt(this.detail.range));
+        endDate = new Date(endDate);
+        var m,d;
+        m = endDate.getMonth() + 1;
+        if (endDate.getMonth()<10){
+          m = "0"+(endDate.getMonth() + 1)
+        }
+        d = endDate.getDate();
+        if(endDate.getDate()<10){
+          d = "0"+endDate.getDate()
+        }
+        return endDate.getFullYear() + "." + m + "." + d;
+    },
+    now: function () {
+        return Utils.getNowFormatDate()
+    }
+  },        
   created() {
   },
   methods: {
+    toInvest: function (id,type){
+        this.$router.push({name:'productInvest',query:{ id: id , type: type }});
+    }
   },
   // 路由守卫，通过url上的参数获取id和类型
   beforeRouteEnter  (to, from, next) {
@@ -106,7 +174,8 @@ export default {
                 console.log(ret)
                 vm.detail = ret.data
             }else{
-                Utils.toast("投资产品不存在")
+                Utils.toast("投资产品不存在");
+                vm.detail = ""
             }
         })
       })
@@ -161,7 +230,7 @@ body {
 }
 
 .product-item-data {
-    padding: .3rem 0
+    padding: .3rem 0 0 0
 }
 
 .product-item-header {
@@ -300,7 +369,7 @@ body {
 }
 
 .product-item .product-item-data-detail {
-    padding: .5rem .5rem 0 .5rem
+    padding: .7rem .5rem 0 .5rem
 }
 
 .product-item-detail {
@@ -310,6 +379,7 @@ body {
 }
 
 .product-item-detail-title {
+    overflow: hidden;
     padding: .5rem;
     font-size: .7rem;
     color: #000;
@@ -327,7 +397,9 @@ body {
 }
 
 .product-item-detail .product-item-data-detail img {
-    width: 2rem
+    width: 2rem;
+    display: inline-block;
+    margin-bottom: .3rem;
 }
 
 .product-item-detail .product-item-data-detail h3 {

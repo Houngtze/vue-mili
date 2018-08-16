@@ -116,7 +116,7 @@ export default {
   beforeRouteEnter  (to, from, next) {
     next(vm => {
         // 通过 `vm` 访问组件实例
-        if (!store.state.userPoint) {
+        if (!store.state.userPoint && store.state.token) {
             axios.get(config.url_userIntegral).then((res) => {
                 console.log(res)
                 if (res.data.errcode == 0) {

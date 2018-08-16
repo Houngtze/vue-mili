@@ -370,10 +370,6 @@ ul, li {
     -webkit-align-items: center;
 }
 
-#app {
-    margin-bottom: 5rem
-}
-
 .m-bar-tab~.m-content.m-scroll-wrapper .m-scrollbar-vertical {
     bottom: 50px
 }

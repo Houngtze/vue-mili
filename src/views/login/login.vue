@@ -47,7 +47,7 @@ export default {
       topBar
   },
   created() {
-  	store.dispatch('UserLogout')
+  	
   },
   mounted() {
   	
@@ -76,7 +76,7 @@ export default {
 		    if (ret.errcode == 0) {
 		    	store.dispatch('UserLogin',ret.data.token.access_token)
 		    	store.dispatch('User',ret.data)
-		    	this.$router.replace('/my')
+		    	this.$router.back()
 		    }else{
 		    	Utils.toast(ret.msg);
 		    	return false
