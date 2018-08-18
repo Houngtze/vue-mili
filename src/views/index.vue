@@ -123,7 +123,7 @@
 import loading from '../components/loading'
 import {config} from '../api'
 import Utils from '../utils'
-import axios from 'axios'
+import axios from '../axios'
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
@@ -193,11 +193,15 @@ export default {
           console.log(res)
           this.swiper_mes = res.data.data;
           this.l_show = false
+      }).catch(err =>{
+        this.l_show = false
       })
       axios.get(config.url_homeProduct).then((res) => {
           console.log(res)
           this.swiper_product = res.data.data;
           this.l_show = false
+      }).catch(err =>{
+        this.l_show = false
       })
       axios.post(config.url_noticeList,{
         type: 'news',
@@ -205,6 +209,9 @@ export default {
       }).then((res) => {
           console.log(res)
           this.news = res.data.data.All_items;
+          this.l_show = false
+      }).catch(err =>{
+        this.l_show = false
       })
   }
 	 

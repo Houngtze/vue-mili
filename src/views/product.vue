@@ -145,7 +145,7 @@ import topBar from '../components/topBar'
 import loading from '../components/loading'
 import {config} from '../api'
 import Utils from '../utils'
-import axios from 'axios'
+import axios from '../axios'
 export default {
   data () {
     return {
@@ -203,6 +203,8 @@ export default {
                 
             }
         }
+      }).catch(err =>{
+        this.l_show = false
       });
      axios.get(config.url_intStoreTreasure).then((res) => {
      	var ret = res.data;
@@ -231,7 +233,9 @@ export default {
             this.l_show = false
         }
      }
-  })
+  }).catch(err =>{
+        this.l_show = false
+      })
  },
   methods: {
     tabShow: function () {

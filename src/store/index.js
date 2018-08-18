@@ -27,14 +27,17 @@ const mutations = {
   },
   USER: (state, data) => {
     //把用户名存起来
-    state.user = JSON.stringify(data.user);
-    state.userAcount =  JSON.stringify(data.userAcount);
-    window.localStorage.setItem('user', JSON.stringify(data.user));
-    window.localStorage.setItem('userAcount', JSON.stringify(data.userAcount));
+    state.user = JSON.stringify(data);
+    window.localStorage.setItem('user', JSON.stringify(data));
+    
   },
   USERPOINT: (state, data) => {
     state.userPoint = data;
     window.localStorage.setItem('userPoint', data);
+  },
+  USERACCOUNT: (state, data) =>{
+    state.userAcount =  JSON.stringify(data);
+    window.localStorage.setItem('userAcount', JSON.stringify(data));
   }
 };
 const actions = {
@@ -46,6 +49,9 @@ const actions = {
   },
   User({ commit }, data){
     commit('USER', data);
+  },
+  UserAccount({ commit }, data){
+    commit('USERACCOUNT', data);
   },
   UserPoint({ commit }, data){
     commit('USERPOINT', data);

@@ -16,7 +16,7 @@ Vue.use(Router)
 // })
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   routes: [
     {path: '/index',name: 'index',component: resolve => require(['@/views/index'], resolve)},
     {path: '/product', name:'product', component: resolve => require(['@/views/product'], resolve)},
@@ -35,6 +35,10 @@ export default new Router({
     // product
     {path: '/productDetail', name: 'productDetail',component:resolve => require(['@/views/product/productDetail'], resolve) },
     {path: '/productInvest', name: 'productInvest',meta: {needToken: true},component:resolve => require(['@/views/product/productInvest'], resolve) },
+
+    // my
+    {path: '/myInvest', name: 'myInvest',meta: {needToken: true},component:resolve => require(['@/views/my/myInvest'], resolve) },
+    {path: '/myInvestDetail', name: 'myInvestDetail',meta: {needToken: true},component:resolve => require(['@/views/my/myInvestDetail'], resolve) },
 
   ],
   'linkActiveClass':'active'  //为路由匹配激活link-active，方便设置类

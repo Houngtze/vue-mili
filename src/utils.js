@@ -4,7 +4,6 @@ import layer from 'vue-layer-mobile'
 var utils = {
     //金额格式化千分位(000,000,000)
     AmountFormate: function(str){
-        console.log(typeof(str))
         var _this = str
         var number = _this.toString();
         var num = _this + "";
@@ -55,13 +54,20 @@ var utils = {
         return currentdate;
     },
 // toast: 文字和图标:
-    toast :function(content){        
+    toast: function(content){        
         layer.toast({
           icon: 'icon-check', // 图标clssName 如果为空 toast位置位于下方,否则居中 
           content: content || '',
           time: 2000 // 自动消失时间 toast类型默认消失时间为2000毫秒 
         })
         return false
+    },
+    // loading:
+    loading: function(content){
+        layer.loading(content);
+        setTimeout(function(){
+            layer.close();
+        },3000);
     },
     // dialog:
     dialog: function(title,content,btn,callback){

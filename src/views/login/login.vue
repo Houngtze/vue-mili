@@ -75,7 +75,8 @@ export default {
 		    this.l_show = false;
 		    if (ret.errcode == 0) {
 		    	store.dispatch('UserLogin',ret.data.token.access_token)
-		    	store.dispatch('User',ret.data)
+		    	store.dispatch('User',ret.data.user)
+		    	store.dispatch('UserAccount',ret.data.userAcount)
 		    	this.$router.back()
 		    }else{
 		    	Utils.toast(ret.msg);

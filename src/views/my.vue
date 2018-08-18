@@ -12,7 +12,7 @@
 							{{user.statusInfo}}
 						</span>
 					</div>
-					<div class="right flex-1">
+					<div class="right flex-1" style="visibility: hidden">
 						<img src="../assets/image/mine/icon/icon-mine_date.png" alt="">
 					</div>
 				</div>
@@ -59,56 +59,21 @@
 				<img src="../assets/image/mine/icon/icon-mine_2.png">
 				<span>提现</span>
 			</div>
-			<div class="m-item m-item2 m-mine-title">
-				<div class="m-pull-right">
-					<span class="iconfont"><img src="../assets/image/in.png"></span>
-				</div>
-				<img src="../assets/image/mine/icon/icon-mine_3.png">
-				<span>我的优惠券</span>
-			</div>
-			<div class="m-item m-item2 m-mine-title">
+			<div class="m-item m-item2 m-mine-title" @click="toMyInvest">
 				<div class="m-pull-right">
 					<span class="iconfont"><img src="../assets/image/in.png"></span>
 				</div>
 				<img src="../assets/image/mine/icon/icon-mine_4.png">
 				<span>我的投资</span>
 			</div>
-			<div class="m-item m-item2 m-mine-title">
-				<div class="m-pull-right">
-					<span class="iconfont"><img src="../assets/image/in.png"></span>
-				</div>
-				<img src="../assets/image/mine/icon/icon-mine_5.png">
-				<span>风险评测</span>
-			</div>
-			<div class="m-item m-item2 m-mine-title">
-				<div class="m-pull-right">
-					<span class="iconfont"><img src="../assets/image/in.png"></span>
-				</div>
-				<img src="../assets/image/mine/icon/icon-mine_6.png">
-				<span>我的邀请</span>
-			</div>
-			<div class="m-item m-item2 m-mine-title">
-				<div class="m-pull-right">
-					<span class="iconfont"><img src="../assets/image/in.png"></span>
-				</div>
-				<img src="../assets/image/mine/icon/icon-mine_7.png">
-				<span>更多问题</span>
-			</div>
-			<div class="m-item m-item2 m-mine-title margin-bottom">
-				<div class="m-pull-right">
-					<span class="iconfont"><img src="../assets/image/in.png"></span>
-				</div>
-				<img src="../assets/image/mine/icon/icon-mine_8.png">
-				<span>更多设置</span>
-			</div>
 		</div>
 				
-			<div style="width:100%;text-align:center;padding:10px 0">
+<!-- 			<div style="width:100%;text-align:center;padding:10px 0">
 		        </button>
 				<button class="m-btn-yellow" tapmode="" @click="clearData">
 		          清除数据
 		        </button>
-			</div> 
+			</div>  -->
 	</div>
 </template>
 
@@ -116,6 +81,9 @@
 import router from '../router'	
 import store from '../store'
 import { mapState } from 'vuex'
+import axios from '../axios'
+import {config} from '../api'
+import Utils from '../utils'
 export default {
   data () {
     return {
@@ -152,6 +120,9 @@ export default {
     clearData: function () {
     	store.dispatch('UserLogout');
     	scrollTo(0,0)
+    },
+    toMyInvest: function() {
+    	this.$router.push({name:'myInvest'});
     }
   }
 }

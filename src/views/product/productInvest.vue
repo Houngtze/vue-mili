@@ -188,12 +188,22 @@ export default {
         	console.log(response)
             let ret = response.data;
             this.l_show = false;
-            if (ret.errcode == 0) {
+            if (ret.errcode == 0) { 
                 Utils.toast("您已完成此类型理财产品的投资");
+                axios.get(config.url_user_account).then(response=>{
+                    console.log(response.data.data)
+                    if (response.data.data) {
+                        store.dispatch('UserAccount',response.data.data)
+                    }
+                })
+                setTimeOut(function() {
+                    this.$router.replace({name:'myInvest',query:{ type: this.type }});
+                },2000)
             }else{
                 Utils.toast("投资产品出错，请稍后重试");
             }
         })
+        
   	},
     noOpen: function() {
       Utils.toast("优惠券功能暂未开放，请移至APP使用")

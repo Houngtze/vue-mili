@@ -4,7 +4,7 @@
         <div class="m-table" style="overflow:hidden;;border-bottom:none">
             <router-link to="/index" class="a1 m-table-cell m-col-xs-3" active-class="m-focus"> <s class=" s1"></s> <s class=" s2"></s> 首页 </router-link>
             <router-link to="/product" class="a2 m-table-cell m-col-xs-3" active-class="m-focus"> <s class=" s1"></s> <s class=" s2"></s> 产品 </router-link>
-            <router-link to="/lqb" class="a5 m-table-cell m-col-xs-3" active-class="m-focus"> <s class=" s1"></s> <s class=" s2"></s></router-link>
+            <a class="a5 m-table-cell m-col-xs-3" active-class="m-focus" @click="noOpen"> <s class=" s1"></s> <s class=" s2"></s></a>
             <router-link to="/discovery" class="a3 m-table-cell m-col-xs-3" active-class="m-focus"> <s class=" s1"></s> <s class=" s2"></s> 发现 </router-link>
             <router-link to="/my" class="a4 m-table-cell m-col-xs-3" active-class="m-focus"> <s class=" s1"></s> <s class=" s2"></s> 我的 </router-link>
         </div>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import Utils from './utils'
 export default {
   name: 'App',
       components:{
@@ -39,6 +40,11 @@ export default {
                    this.isBottom = true;
                }
           }
+      },
+      methods: {
+        noOpen: function() {
+          Utils.toast("该功能暂未开放，请移至APP使用")
+        }
       }
 }
 </script>
